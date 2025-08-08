@@ -1,4 +1,5 @@
 # Fuel & Flex - E-commerce Website with Authentication & Checkout
+### LINK- https://fuel-flex-tau.vercel.app/
 
 A complete e-commerce website for gym supplements and apparel with user authentication, shopping cart, and checkout functionality built with HTML, CSS, JavaScript, and Supabase.
 
@@ -268,3 +269,4 @@ CREATE POLICY "Users can insert own order items" ON order_items
 ---
 
 **Note**: This is a demo project
+
