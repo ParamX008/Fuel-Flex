@@ -64,13 +64,9 @@ Portfolio2.0/
 
 ### 1. Supabase Setup
 
-1. **Create Supabase Project**:
-   - Go to [supabase.com](https://supabase.com)
-   - Create a new project
-   - Note down your project URL and anon key
 
-2. **Database Schema**:
-   Run the following SQL in your Supabase SQL editor:
+ **Database Schema**:
+   
 
 ```sql
 -- Enable UUID extension
@@ -203,55 +199,6 @@ CREATE POLICY "Users can insert own order items" ON order_items
   );
 ```
 
-3. **Configure Authentication**:
-   - Go to Authentication → Settings
-   - Configure your site URL
-   - Set up email templates
-   - Enable Google OAuth (optional)
-
-### 2. Update Configuration
-
-1. **Edit `config.js`**:
-   Replace the placeholder values with your actual Supabase credentials:
-
-```javascript
-const supabaseConfig = {
-    url: 'YOUR_SUPABASE_URL', // Replace with your actual Supabase URL
-    anonKey: 'YOUR_SUPABASE_ANON_KEY', // Replace with your actual Supabase anon key
-    // ... rest of config
-};
-```
-
-### 3. Local Development
-
-1. **Install a local server** (optional but recommended):
-   ```bash
-   # Using Python
-   python -m http.server 8000
-   
-   # Using Node.js
-   npx serve .
-   
-   # Using PHP
-   php -S localhost:8000
-   ```
-
-2. **Open in browser**:
-   - Navigate to `http://localhost:8000`
-   - The site should work with full functionality
-
-### 4. Production Deployment
-
-1. **Upload files** to your web hosting service
-2. **Update Supabase settings**:
-   - Add your production domain to allowed origins
-   - Configure redirect URLs for authentication
-3. **Test all functionality**:
-   - User registration/login
-   - Shopping cart
-   - Checkout process
-   - Order confirmation
-
 ## Usage
 
 ### For Users
@@ -302,15 +249,6 @@ const supabaseConfig = {
 4. Test thoroughly
 5. Submit a pull request
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Support
-
-For support or questions:
-- Create an issue in the repository
-- Contact: Fuel&Flex@gmail.com
 
 ## Changelog
 
@@ -329,4 +267,4 @@ For support or questions:
 
 ---
 
-**Note**: This is a demo project. For production use, ensure proper security measures, SSL certificates, and payment gateway integration. 
+**Note**: This is a demo project
