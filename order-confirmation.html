@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Fuel & Flex</title>
+
+    <!-- Favicon Section -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/LOGO.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="Images/LOGO.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="Images/LOGO.jpg">
+    <link rel="icon" type="image/png" sizes="192x192" href="Images/LOGO.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="Images/LOGO.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#278cf8">
+    <meta name="msapplication-TileColor" content="#278cf8">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkout.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .confirmation-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
+                        url('Images/john-fornander-TAZoUmDqzXk-unsplash.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .confirmation-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirmation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: white;
+            animation: bounceIn 0.6s ease;
+        }
+
+        .confirmation-title {
+            color: var(--light-color);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .order-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-number {
+            color: var(--light-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            text-align: left;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: var(--light-color);
+            font-weight: 500;
+        }
+
+        .order-summary {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .summary-row.total {
+            color: var(--light-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .confirmation-actions .btn {
+            padding: 0.875rem 1.5rem;
+            font-weight: 600;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .order-items {
+            margin: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .item-details {
+            flex: 1;
+            text-align: left;
+        }
+
+        .item-name {
+            color: var(--light-color);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-price {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .item-quantity {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .shipping-address {
+            margin: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .address-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .address-line {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.25rem;
+        }
+
+        .address-line:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .confirmation-title {
+                font-size: 1.75rem;
+            }
+
+            .order-info {
+                grid-template-columns: 1fr;
+            }
+
+            .confirmation-actions {
+                flex-direction: column;
+            }
+
+            .order-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .item-details {
+                text-align: center;
+            }
+        }
+        /* --- Layout fixes for order items and totals --- */
+        .order-items-section .items-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .order-item { display: flex; align-items: center; gap: 1rem; }
+        .order-item .item-image { width: 64px; height: 64px; flex: 0 0 64px; }
+        .order-item .item-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
+        .order-item .item-details { flex: 1 1 auto; min-width: 0; text-align: left; }
+        .order-item .item-total { margin-left: auto; font-weight: 600; color: var(--light-color); }
+
+        /* Center totals section */
+        .order-totals-section { display: flex; justify-content: center; }
+        .order-totals-section .totals-grid { width: 100%; max-width: 420px; margin: 0 auto; }
+        .order-totals-section .total-row { justify-content: space-between; }
+
+        /* Small screens: stack item content neatly */
+        @media (max-width: 768px) {
+            .order-item { align-items: flex-start; }
+            .order-item .item-total { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <h2>Fuel & Flex</h2>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Continue Shopping</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Order Confirmation Container -->
+    <div class="checkout-container">
+        <div class="order-confirmation-content">
+            <!-- Success Header -->
+            <div class="confirmation-header">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Order Confirmed!</h1>
+                <p>Thank you for your order. We'll send you a confirmation email shortly.</p>
+            </div>
+
+            <!-- Order Details -->
+            <div class="order-details-card">
+                <div class="order-summary-section">
+                    <h2>Order Summary</h2>
+                    <div class="order-info">
+                        <div class="order-number">
+                            <span class="label">Order Number:</span>
+                            <span class="value" id="order-number">Loading...</span>
+                        </div>
+                        <div class="order-date">
+                            <span class="label">Order Date:</span>
+                            <span class="value" id="order-date">Loading...</span>
+                        </div>
+                        <div class="order-status">
+                            <span class="label">Status:</span>
+                            <span class="value status-pending" id="order-status">Processing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Information -->
+                <div class="customer-info-section">
+                    <h3>Customer Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h4>Contact Details</h4>
+                            <p id="customer-name">Loading...</p>
+                            <p id="customer-email">Loading...</p>
+                            <p id="customer-phone">Loading...</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Billing Address</h4>
+                            <div id="billing-address">Loading...</div>
+                        </div>
+                        <div class="info-item" id="shipping-info" style="display: none;">
+                            <h4>Shipping Address</h4>
+                            <div id="shipping-address">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Order Items -->
+                <div class="order-items-section">
+                    <h3>Order Items</h3>
+                    <div class="items-list" id="order-items">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Order Totals -->
+                <div class="order-totals-section">
+                    <div class="totals-grid">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="order-subtotal">₹0</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Shipping:</span>
+                            <span id="order-shipping">₹0</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Tax:</span>
+                            <span id="order-tax">₹0</span>
+                        </div>
+                        <div class="total-row total">
+                            <span>Total:</span>
+                            <span id="order-total">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="confirmation-actions">
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-shopping-bag"></i>
+                        Continue Shopping
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='orders.html'">
+                        <i class="fas fa-shopping-bag"></i>
+                        View Orders
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="config.js"></script>
+    <script src="order-confirmation.js"></script>
+</body>
+</html>

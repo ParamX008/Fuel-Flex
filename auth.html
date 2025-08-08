@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Fuel & Flex</title>
+
+    <!-- Favicon Section -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#278cf8">
+    <meta name="msapplication-TileColor" content="#278cf8">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <h2>Fuel & Flex</h2>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your account or create a new one</p>
+            </div>
+
+            <!-- Auth Toggle -->
+            <div class="auth-toggle">
+                <button class="toggle-btn active" data-form="signin">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+                <button class="toggle-btn" data-form="signup">
+                    <i class="fas fa-user-plus"></i>
+                    Sign Up
+                </button>
+            </div>
+
+            <!-- Sign In Form -->
+            <form id="signin-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="signin-email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signin-email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signin-password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signin-password" required>
+                        <button type="button" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <div class="auth-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>New users must verify their email before signing in</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-btn">
+                    <span class="btn-text">Sign In</span>
+                    <div class="btn-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </button>
+
+                <div class="social-login">
+                    <p>Or continue with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn google-btn">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signup-name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signup-password" required>
+                        <button type="button" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill"></div>
+                        </div>
+                        <span class="strength-text">Password strength</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signup-confirm-password" required>
+                        <button type="button" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agree-terms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-btn">
+                    <span class="btn-text">Create Account</span>
+                    <div class="btn-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </button>
+
+                <div class="social-login">
+                    <p>Or sign up with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn google-btn">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Forgot Password Form -->
+            <form id="forgot-form" class="auth-form">
+                <div class="form-group">
+                    <label for="forgot-email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="forgot-email" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-btn">
+                    <span class="btn-text">Send Reset Link</span>
+                    <div class="btn-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </button>
+
+                <div class="back-to-signin">
+                    <a href="#" class="back-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Sign In
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html> 

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel & Flex - Premium Gym Supplements & Apparel</title>
+
+    <!-- Favicon Section -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/LOGO.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="Images/LOGO.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="Images/LOGO.jpg">
+    <link rel="icon" type="image/png" sizes="192x192" href="Images/LOGO.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="Images/LOGO.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#278cf8">
+    <meta name="msapplication-TileColor" content="#278cf8">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="Images/LOGO.jpg" alt="Fuel & Flex Logo" class="logo-image">
+                <h2>Fuel & Flex</h2>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#supplements" class="nav-link">Supplements</a>
+                <a href="#clothes" class="nav-link">Apparel</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-auth">
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="auth.html" class="btn btn-secondary auth-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </a>
+                    <!-- Debug info -->
+                    <div id="debug-info" style="color: white; font-size: 0.8rem; margin-left: 1rem; display: none;">
+                        Status: <span id="auth-status">Checking...</span>
+                    </div>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <button class="user-btn" id="user-btn" onclick="console.log('User button clicked directly'); toggleUserDropdown();">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="user-name">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <div class="user-info" id="user-info">
+                            <div class="user-email" id="user-email">user@example.com</div>
+                            <div class="user-status">Signed in</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item" onclick="console.log('Profile link clicked from dropdown')">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="profile.html#addresses" class="dropdown-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Addresses
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="signout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-cart">
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Fuel Your <span class="highlight">Fitness</span> Journey</h1>
+                <p class="hero-subtitle">Premium supplements and performance apparel to help you reach your goals</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('supplements')">
+                        Shop Supplements
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('clothes')">
+                        Browse Apparel
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-card">
+                    <img src="Images/CARD.jpg" alt="Gym Supplements">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supplements Section -->
+    <section id="supplements" class="products-section">
+        <div class="container">
+            <h2 class="section-title">Premium Supplements</h2>
+            <p class="section-subtitle">High-quality supplements to support your fitness goals</p>
+            
+            <div class="products-grid" id="supplements-grid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Clothes Section -->
+    <section id="clothes" class="products-section">
+        <div class="container">
+            <h2 class="section-title">Performance Apparel</h2>
+            <p class="section-subtitle">Comfortable and stylish workout clothes</p>
+            
+            <div class="products-grid" id="clothes-grid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About <span class="highlight">Fuel & Flex</span></h2>
+                    <p>We're passionate about helping you achieve your fitness goals. Our premium supplements and performance apparel are designed to support your journey to a stronger, healthier you.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-shipping-fast"></i>
+                            <h3>Fast Shipping</h3>
+                            <p>Free shipping on orders over ₹899</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-medal"></i>
+                            <h3>Premium Quality</h3>
+                            <p>Only the best ingredients and materials</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-headset"></i>
+                            <h3>24/7 Support</h3>
+                            <p>Expert customer service always available</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="Images/picv.webp" alt="About Us">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>Fuel&Flex@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+91-9876543210</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Address</h3>
+                            <p>West Bengal,Chinsurah-712102</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="close-cart" id="close-cart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <button class="btn btn-primary" id="checkout-btn" onclick="window.location.href='checkout.html'">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FitFuel</h3>
+                    <p>Your trusted partner in fitness and wellness.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#supplements">Supplements</a></li>
+                        <li><a href="#clothes">Apparel</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for updates and exclusive offers</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fuel & Flex. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Fuel & Flex</title>
+
+    <!-- Favicon Section -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#278cf8">
+    <meta name="msapplication-TileColor" content="#278cf8">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkout.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <h2>Fuel & Flex</h2>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Continue Shopping</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Container -->
+    <div class="checkout-container">
+        <div class="checkout-content">
+            <!-- Checkout Form -->
+            <div class="checkout-form">
+                <div class="checkout-header">
+                    <h1>Checkout</h1>
+                    <div class="checkout-steps">
+                        <div class="step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-text">Information</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-text">Payment</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-text">Review</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Customer Information -->
+                <form id="customer-info-form" class="checkout-step active">
+                    <div class="form-section">
+                        <h3>Contact Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>Billing Address</h3>
+                            <button type="button" class="btn btn-secondary" id="select-billing-address" onclick="showAddressSelector('billing')" style="display: none;">
+                                <i class="fas fa-address-book"></i>
+                                Select Saved Address
+                            </button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="billing-first-name">First Name</label>
+                                <input type="text" id="billing-first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="billing-last-name">Last Name</label>
+                                <input type="text" id="billing-last-name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-address">Address</label>
+                            <input type="text" id="billing-address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-address-2">Apartment, suite, etc. (optional)</label>
+                            <input type="text" id="billing-address-2">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="billing-city">City</label>
+                                <input type="text" id="billing-city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="billing-state">State</label>
+                                <input type="text" id="billing-state" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="billing-postal">Postal Code</label>
+                                <input type="text" id="billing-postal" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="shipping-toggle">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="same-shipping" checked>
+                                <span class="checkmark"></span>
+                                Shipping address same as billing
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section" id="shipping-section" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>Shipping Address</h3>
+                            <button type="button" class="btn btn-secondary" id="select-shipping-address" onclick="showAddressSelector('shipping')" style="display: none;">
+                                <i class="fas fa-address-book"></i>
+                                Select Saved Address
+                            </button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shipping-first-name">First Name</label>
+                                <input type="text" id="shipping-first-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-last-name">Last Name</label>
+                                <input type="text" id="shipping-last-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-address">Address</label>
+                            <input type="text" id="shipping-address">
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-address-2">Apartment, suite, etc. (optional)</label>
+                            <input type="text" id="shipping-address-2">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shipping-city">City</label>
+                                <input type="text" id="shipping-city">
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-state">State</label>
+                                <input type="text" id="shipping-state">
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-postal">Postal Code</label>
+                                <input type="text" id="shipping-postal">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Cart
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Continue to Payment
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Step 2: Payment Information -->
+                <form id="payment-form" class="checkout-step">
+                    <div class="form-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="card" checked>
+                                <div class="method-content">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Credit/Debit Card</span>
+                                </div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="upi">
+                                <div class="method-content">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>UPI</span>
+                                </div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="netbanking">
+                                <div class="method-content">
+                                    <i class="fas fa-university"></i>
+                                    <span>Net Banking</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section" id="card-payment-section">
+                        <h3>Card Details</h3>
+                        <div class="form-group">
+                            <label for="card-number">Card Number</label>
+                            <div class="card-input">
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+                                <div class="card-icons">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <i class="fab fa-cc-amex"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="card-expiry">Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvv">CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-name">Name on Card</label>
+                            <input type="text" id="card-name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section" id="upi-payment-section" style="display: none;">
+                        <h3>UPI Details</h3>
+                        <div class="form-group">
+                            <label for="upi-id">UPI ID</label>
+                            <input type="text" id="upi-id" placeholder="example@upi">
+                        </div>
+                    </div>
+
+                    <div class="form-section" id="netbanking-payment-section" style="display: none;">
+                        <h3>Net Banking</h3>
+                        <div class="form-group">
+                            <label for="bank-select">Select Bank</label>
+                            <select id="bank-select">
+                                <option value="">Choose your bank</option>
+                                <option value="sbi">State Bank of India</option>
+                                <option value="hdfc">HDFC Bank</option>
+                                <option value="icici">ICICI Bank</option>
+                                <option value="axis">Axis Bank</option>
+                                <option value="kotak">Kotak Mahindra Bank</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Review Order
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Step 3: Order Review -->
+                <div id="order-review" class="checkout-step">
+                    <div class="form-section">
+                        <h3>Order Review</h3>
+                        <div class="review-summary">
+                            <div class="review-item">
+                                <h4>Contact Information</h4>
+                                <p id="review-email"></p>
+                                <p id="review-phone"></p>
+                            </div>
+                            <div class="review-item">
+                                <h4>Billing Address</h4>
+                                <p id="review-billing"></p>
+                            </div>
+                            <div class="review-item" id="review-shipping-item" style="display: none;">
+                                <h4>Shipping Address</h4>
+                                <p id="review-shipping"></p>
+                            </div>
+                            <div class="review-item">
+                                <h4>Payment Method</h4>
+                                <p id="review-payment"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back
+                        </button>
+                        <button type="button" class="btn btn-primary" id="place-order-btn">
+                            <span class="btn-text">Place Order</span>
+                            <div class="btn-loader" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="summary-card">
+                    <h3>Order Summary</h3>
+                    <div class="cart-items" id="checkout-cart-items">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shipping-cost">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span id="tax-amount">₹0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="total-amount">₹0</span>
+                        </div>
+                    </div>
+                    <div class="summary-actions">
+                        <div class="promo-code">
+                            <input type="text" placeholder="Promo code" id="promo-code">
+                            <button type="button" class="btn btn-secondary" id="apply-promo">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Address Selector Modal -->
+    <div id="address-selector-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="address-selector-title">Select Address</h3>
+                <button type="button" class="modal-close" onclick="closeAddressSelector()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="address-list" class="address-list">
+                    <!-- Addresses will be loaded here -->
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddressSelector()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>
