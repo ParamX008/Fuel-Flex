@@ -38,7 +38,7 @@ A complete e-commerce website for gym supplements and apparel with user authenti
 ## File Structure
 
 ```
-Portfolio2.0/
+FUEL&FLEX/
 ├── index.html              # Main homepage
 ├── auth.html               # Authentication page
 ├── checkout.html           # Checkout page
@@ -269,4 +269,5 @@ CREATE POLICY "Users can insert own order items" ON order_items
 ---
 
 **Note**: This is a demo project
+
 
